@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفيزياء الحديثة - الحركة التذبذبية</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.8;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #0f172a;
+            color: var(--light-color);
+        }
+
+        .dark-mode .card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(45deg);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-right: 1.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            bottom: -0.5rem;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-box {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .animated-diagram {
+            width: 100%;
+            height: 400px;
+            background: #f1f5f9;
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pendulum {
+            position: absolute;
+            left: 50%;
+            top: 20%;
+            width: 2px;
+            height: 200px;
+            background: var(--dark-color);
+            transform-origin: top center;
+            animation: swing 2s ease-in-out infinite;
+        }
+
+        @keyframes swing {
+            0% { transform: rotate(-30deg); }
+            50% { transform: rotate(30deg); }
+            100% { transform: rotate(-30deg); }
+        }
+
+        .quiz-container {
+            background: #f1f5f9;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .quiz-option:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .progress-fill {
+            width: 33%;
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .floating-btns {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .downloads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .download-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .download-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .download-info {
+            flex: 1;
+        }
+
+        .download-size {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-input {
+            padding: 0.8rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        /* Quiz Enhancements */
+        .quiz-form {
+            margin-top: 1.5rem;
+        }
+
+        .quiz-option input[type="radio"],
+        .quiz-option input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .custom-radio,
+        .custom-checkbox {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        .custom-checkbox {
+            border-radius: 4px;
+        }
+
+        input[type="radio"]:checked + .custom-radio::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        input[type="checkbox"]:checked + .custom-checkbox::after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 3px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .quiz-result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-result.correct {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .quiz-result.incorrect {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>الحركة التذبذبية</h1>
+            <div class="nav-links">
+                <a href="#intro">مقدمة</a>
+                <a href="#concepts">المفاهيم</a>
+                <a href="#experiments">التجارب</a>
+                <a href="#quiz">الاختبار</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="card" id="intro">
+            <h2>مقدمة في الحركة التذبذبية</h2>
+            <div class="animated-diagram">
+                <div class="pendulum"></div>
+            </div>
+            <p>الحركة التذبذبية هي أحد المفاهيم الأساسية في الفيزياء التي تصف الحركة المتكررة حول نقطة الاتزان...</p>
+        </section>
+
+        <section class="card" id="concepts">
+            <h2>المفاهيم الأساسية</h2>
+            <div class="interactive-grid">
+                <div class="feature-box">
+                    <h3>الزمن الدوري</h3>
+                    <p>الزمن اللازم لإكمال دورة كاملة</p>
+                </div>
+                <div class="feature-box">
+                    <h3>التردد</h3>
+                    <p>عدد الدورات في الثانية الواحدة</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card quiz-container" id="quiz">
+            <h2>اختبر فهمك</h2>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <form id="quizForm" class="quiz-form" onsubmit="handleQuizSubmit(event)">
+                <div class="quiz-question">
+                    <p>1. ما هي العلاقة بين الزمن الدوري وتردد الاهتزاز؟</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="question1" value="طردية" required>
+                            <span class="custom-radio"></span>
+                            علاقة طردية
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="question1" value="عكسية">
+                            <span class="custom-radio"></span>
+                            علاقة عكسية
+                        </label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p>2. أي من هذه العوامل تؤثر على الزمن الدوري للبندول البسيط؟</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="checkbox" name="question2" value="الطول">
+                            <span class="custom-checkbox"></span>
+                            طول البندول
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="question2" value="الكتلة">
+                            <span class="custom-checkbox"></span>
+                            كتلة الثقل
+                        </label>
+                        <label class="quiz-option">
+                            <input type="checkbox" name="question2" value="الجاذبية">
+                            <span class="custom-checkbox"></span>
+                            تسارع الجاذبية
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">أرسل لنا ملاحظاتك (اختياري)</label>
+                    <textarea class="form-input" name="feedback" rows="3"></textarea>
+                </div>
+<br>
+                <button type="submit" class="submit-btn">تقديم الإجابات</button>
+            </form>
+            <div class="quiz-result" id="quizResult"></div>
+        </section>
+    </main>
+
+    <div class="floating-btns">
+        <button class="btn" onclick="showModal('download')">
+            <span>📥 التنزيلات</span>
+        </button>
+    </div>
+
+    <div class="dark-mode-toggle" onclick="toggleDarkMode()">
+        🌓
+    </div>
+
+    <!-- Download Modal -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📥 المواد التعليمية المتاحة للتنزيل</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="downloads-grid">
+                <div class="download-item">
+                    <div class="download-icon">📘</div>
+                    <div class="download-info">
+                        <h4>ملخص الوحدة</h4>
+                        <p class="download-size">PDF - 2.4 MB</p>
+                        <button class="btn download-btn">تنزيل</button>
+                    </div>
+                </div>
+                <div class="download-item">
+                    <div class="download-icon">📊</div>
+                    <div class="download-info">
+                        <h4>التمارين العملية</h4>
+                        <p class="download-size">PDF - 1.8 MB</p>
+                        <button class="btn download-btn">تنزيل</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        
+    </div>
+
+    <script>
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Modal Handling
+        let activeModal = null;
+
+        function showModal(type) {
+            closeModal();
+            activeModal = document.getElementById(`${type}Modal`);
+            activeModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            if (activeModal) {
+                activeModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                activeModal = null;
+            }
+        }
+
+        // Quiz Handling
+        function handleQuizSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const results = {
+                question1: formData.get('question1'),
+                question2: formData.getAll('question2')
+            };
+
+            const resultDiv = document.getElementById('quizResult');
+            let score = 0;
+
+            if (results.question1 === 'عكسية') score++;
+            if (results.question2.includes('الطول') && 
+               results.question2.includes('الجاذبية') &&
+               !results.question2.includes('الكتلة')) score++;
+
+            resultDiv.innerHTML = `
+                <h4>نتيجة الاختبار: ${score}/2</h4>
+                <p>الإجابات الصحيحة:</p>
+                <ul>
+                    <li>العلاقة بين الزمن الدوري والتردد هي علاقة عكسية</li>
+                    <li>العوامل المؤثرة: طول البندول وتسارع الجاذبية</li>
+                </ul>
+            `;
+
+            resultDiv.className = `quiz-result ${score === 2 ? 'correct' : 'incorrect'}`;
+            resultDiv.style.display = 'block';
+        }
+
+        // Contact Form Handling
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const email = form.querySelector('input[type="email"]').value;
+            
+            if (!validateEmail(email)) {
+                alert('الرجاء إدخال بريد إلكتروني صحيح');
+                return;
+            }
+
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            form.reset();
+            
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+                closeModal();
+            }, 3000);
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        // Download Handling
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('جاري بدء التنزيل...');
+            });
+        });
+
+        // Close Modal on Outside Click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
